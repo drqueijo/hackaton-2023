@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Publisher extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['nome'];
+
+    public function book()
+    {
+        return $this->hasMany(Book::class);
+    }
 }
