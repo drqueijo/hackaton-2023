@@ -5,7 +5,8 @@ import { FormEvent, FormEventHandler, useRef, useState } from "react";
 import { z } from "zod";
 import Form from "n/components/UI/Form";
 import { notification } from "antd";
-
+import { request } from 'n/utils/fetch'
+import axios from 'axios'
 export default function NewAuthor() {
   const [form, setForm] = useState({
     name: '',
@@ -15,7 +16,7 @@ export default function NewAuthor() {
     phone: '',
   })
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const schema = z.object({
       name: z.string(),
       address: z.string(),
@@ -23,17 +24,29 @@ export default function NewAuthor() {
       uf: z.string(),
       phone: z.number(),
     });
-
-    const validatedData = schema.safeParse(form);
+    const parsedForm = {
+      ...form,
+      phone: parseInt(form.phone)
+    }
+    const validatedData = schema.safeParse(parsedForm);
    
     if(validatedData.success) {
+      try {
+        await axios.post('http://127.0.0.1:8000/authors', parsedForm).then((res) => {
+          console.log(res)
+        }).catch((e) => {
+          console.log(e)
+        })
+      } catch(e) {
+        console.log(e)
+      }
+
       return notification.success({
         message:'Created sucessfully!!',
         description: ''
       })
     }
     if(validatedData.error){
-      console.log(validatedData.error)
       return notification.error({
         message: validatedData.error.errors[0]?.message,
         description: validatedData.error.errors[0]?.path
@@ -60,6 +73,12 @@ export default function NewAuthor() {
         placeholder="pindamonhangaba"
         onChange={(e) => setForm({...form, city: e.target.value})}
         value={form.city}
+      />
+      <TextInput 
+        label='UF'
+        placeholder="parana"
+        onChange={(e) => setForm({...form, uf: e.target.value})}
+        value={form.uf}
       />
       <TextInput 
         label='phone'
