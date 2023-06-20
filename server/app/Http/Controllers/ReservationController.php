@@ -1,20 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Course;
+
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
-class CourseController extends Controller
+class ReservationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-
-    //lista os cursos cadastrados
     public function index()
     {
-        $courses = Course::all();
-        return response()->json($courses);
+        $reservations = Reservation::all();
+        return response()->json($reservations);
     }
 
     /**
@@ -31,24 +30,23 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required',
-            'coordinator' => 'required',
-            'duration' => 'required|integer',
+            'student_id' => 'required|exists:students,id',
+            'book_id' => 'required|exists:books,id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
         ]);
 
-        $course = Course::create($validatedData);
-        return response()->json($course, 201);
+        $reservation = Reservation::create($validatedData);
+        return response()->json($reservation, 201);
     }
 
     /**
      * Display the specified resource.
      */
-
-    //Serve como se fosse uma especie de "Botão de Detalhes"
     public function show(string $id)
     {
-        $course = Course::findOrFail($id);
-        return response()->json($course);
+        $reservation = Reservation::findOrFail($id);
+        return response()->json($reservation);
     }
 
     /**
@@ -65,14 +63,15 @@ class CourseController extends Controller
     public function update(Request $request, string $id)
     {
         $validatedData = $request->validate([
-            'name' => 'required',
-            'coordinator' => 'required',
-            'duration' => 'required|integer',
+            'student_id' => 'required|exists:students,id',
+            'book_id' => 'required|exists:books,id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
         ]);
 
-        $course = Course::findOrFail($id);
-        $course->update($validatedData);
-        return response()->json($course, 200);
+        $reservation = Reservation::findOrFail($id);
+        $reservation->update($validatedData);
+        return response()->json($reservation, 200);
     }
 
     /**
@@ -80,8 +79,8 @@ class CourseController extends Controller
      */
     public function destroy(string $id)
     {
-        $course = Course::findOrFail($id);
-        $course->delete();
+        $reservation = Reservation::findOrFail($id);
+        $reservation->delete();
         return response()->json(null, 204);
     }
 }

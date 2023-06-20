@@ -16,15 +16,15 @@ return new class extends Migration
             $table->string('title');
             $table->string('subtitle');
             $table->string('isbn');
-
-            $table->unsignedBigInteger('author_id');
-            $table->foreign('author_id')->references('id')->on('authors');
+            $table->string('place');
+            $table->integer('year');
 
             $table->unsignedBigInteger('publisher_id');
             $table->foreign('publisher_id')->references('id')->on('publishers');
 
-            $table->string('local');
-            $table->integer('year');
+            $table->unsignedBigInteger('author_id');
+            $table->foreign('author_id')->references('id')->on('authors');
+
             $table->timestamps();
         });
     }

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reserves', function (Blueprint $table) {
+        Schema::create('reservations', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('student_id');
@@ -20,9 +20,9 @@ return new class extends Migration
             $table->unsignedBigInteger('book_id');
             $table->foreign('book_id')->references('id')->on('books');
 
-            $table->date('date_begin');
-            $table->date('date_final');
-            $table->string('obs');
+            $table->date('start_date');
+            $table->date('end_date');
+
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reserves');
+        Schema::dropIfExists('reservations');
     }
 };
