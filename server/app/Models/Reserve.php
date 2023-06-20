@@ -9,15 +9,15 @@ class Reserve extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'student', 'book',];
+    protected $fillable = ['date_begin', 'date_final', 'obs'];
 
     public function student()
     {
-        return $this->hasMany(Student::class);
+        return $this->belongsTo(Student::class);
     }
 
     public function book()
     {
-        return $this->hasMany(Book::class);
+        return $this->belongsTo(Book::class);
     }
 }
