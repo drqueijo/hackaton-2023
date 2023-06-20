@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 
 
 type FormProps = {
   children: React.ReactNode,
-  onSubmit: () => void
+  onSubmit: () => any
 }
 
 const Form: React.FC<FormProps> = ({
@@ -12,7 +13,7 @@ const Form: React.FC<FormProps> = ({
 }) => {
   const submit = ( e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    onSubmit()
+    void onSubmit()
   }
   return (
     <form onSubmit={(e) => submit(e)} className="w-full max-w-lg">
