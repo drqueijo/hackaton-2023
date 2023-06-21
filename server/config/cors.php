@@ -21,7 +21,7 @@ return [
     | can be used to allow all methods to access your application.
     |
     */
-    'allowed_methods' => ['GET', 'POST'],
+    'allowed_methods' => ['*'],
 
     /*
     |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ return [
     | can be used to allow all headers to access your application.
     |
     */
-    'allowed_headers' => ['Content-Type', 'Authorization'],
+    'allowed_headers' => ['*'],
 
     /*
     |--------------------------------------------------------------------------
@@ -65,4 +65,9 @@ return [
     |
     */
     'supports_credentials' => false,
+    
+    'paths' => ['api/*'],
+    'allowed_origins' => ['*'],
+    'allowed_origins_patterns' => [],
+
 ];
