@@ -52,7 +52,7 @@ export default function NewAuthor() {
   }
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} redirect="/authors">
       <TextInput 
         label='name'
         placeholder="jose"

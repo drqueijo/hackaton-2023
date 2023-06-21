@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import Button from '../Button';
+import Button, { ButtonReturn } from '../Button';
 
 
 type FormProps = {
   children: React.ReactNode,
-  onSubmit: () => any
+  onSubmit: () => any,
+  redirect?: string, 
 }
 
 const Form: React.FC<FormProps> = ({
   children,
-  onSubmit
+  onSubmit,
+  redirect = '/'
 }) => {
   const submit = ( e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -19,7 +21,8 @@ const Form: React.FC<FormProps> = ({
   return (
     <form onSubmit={(e) => submit(e)} className="w-full max-w-lg">
       {children}
-      <div className="md:flex md:items-center">
+      <div className="md:flex md:items-center md:space">
+        <ButtonReturn text='Go back' pathname={redirect}/>
         <Button text='Submit' type='submit' />
       </div>
     </form>

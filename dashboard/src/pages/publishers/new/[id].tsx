@@ -4,14 +4,14 @@ import { z } from "zod";
 import Form from "n/components/UI/Form";
 import { notification } from "antd";
 import { useRouter } from 'next/router'
-import { updateAuthor } from "n/utils/fetch";
+import { updatePublisher } from "n/utils/fetch";
 import { api } from "n/utils/api";
 
 export default function NewAuthor() {
   
   const router = useRouter()
   const {id} = router.query
-  const {data} = api.author.getById.useQuery(id ? parseInt(id as string) : 1)
+  const {data} = api.publisher.getById.useQuery(id ? parseInt(id as string) : 1)
 
   const [form, setForm] = useState({
     name: '',
@@ -49,12 +49,12 @@ export default function NewAuthor() {
     const validatedData = schema.safeParse(parsedForm);
     
     if(validatedData.success) {
-      await updateAuthor(parsedForm, id as string)
+      await updatePublisher(parsedForm, id as string)
       notification.success({
         message:'Created sucessfully!!',
         description: ''
       })
-      return router.push('/authors')
+      return router.push('/publishers')
     }
 
     if(validatedData.error){
@@ -67,7 +67,7 @@ export default function NewAuthor() {
   }
 
   return (
-    <Form onSubmit={onSubmit} redirect="/authors">
+    <Form onSubmit={onSubmit} redirect="/publishers">
       <TextInput 
         label='name'
         placeholder="jose"

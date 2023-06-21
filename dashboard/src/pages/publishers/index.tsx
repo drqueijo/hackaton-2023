@@ -6,9 +6,9 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { type ColumnsType } from 'antd/es/table';
 import TableActions from 'n/components/UI/TableActions';
-import { type Author } from 'n/server/api/routers/author';
+import { type Publisher } from 'n/server/api/routers/publisher';
 
-const columns: ColumnsType<Author> = [
+const columns: ColumnsType<Publisher> = [
   {
     title: 'Name',
     dataIndex: 'name',
@@ -38,7 +38,7 @@ const columns: ColumnsType<Author> = [
     title: '',
     dataIndex: 'id',
     key: 'id',
-    render: (id, record) => <TableActions id={record.id} pathName='authors'/>
+    render: (id, record) => <TableActions id={record.id} pathName='publishers'/>
   },
 ];
 
@@ -47,13 +47,13 @@ const AuthorsList: React.FC = ({
 
 }) => {
   const router = useRouter()
-  const authors = api.author.getAll.useQuery()
-  const {data} = authors
+  const {data} = api.publisher.getAll.useQuery()
+
   return(
     <>
       <Row>
         <Col span={24}>
-          <Button text='Create New Author' onClick={() => router.push('/authors/new')}/>
+          <Button text='Create New Publisher' onClick={() => router.push('/publishers/new')}/>
         </Col>
       </Row>
       <Row>

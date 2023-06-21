@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { FormOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { FormOutlined, ShopOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import { useRouter } from 'next/router';
 import { MenuInfo } from 'rc-menu/lib/interface';
@@ -15,6 +15,11 @@ export const routes = [
     name:'Authors',
     path: '/authors',
     icon: FormOutlined
+  },
+  {
+    name:'Publisers',
+    path: '/publishers',
+    icon: ShopOutlined
   }
 ]
 
@@ -26,7 +31,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const selectedKey =  routes.findIndex((item) => item.path === router.pathname) + 1 ?? 1
+  const selectedKey =  routes.findIndex((item) => router.pathname.includes(item.path)) + 1 ?? 1
 
   const navigation = async (path: string) => {
     await router.push(path)

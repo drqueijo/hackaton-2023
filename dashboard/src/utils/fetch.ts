@@ -1,27 +1,14 @@
-// Make the `request` function generic
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+import { notification } from "antd";
+import axios, { type AxiosResponse } from "axios";
 
-import axios, { AxiosResponse } from "axios";
-
-// to specify the return data type:
 export async function request<TResponse>(
   url: string,
-  // `RequestInit` is a type for configuring 
-  // a `fetch` request. By default, an empty object.
   config: RequestInit = {}
-   
-// This function is async, it will return a Promise:
 ): Promise<TResponse> {
-    
-  // Inside, we call the `fetch` function with 
-  // a URL and config given:
   return fetch(url, config)
-    // When got a response call a `json` method on it
     .then((response) => response.json())
-    // and return the result data.
     .then((data) => data as TResponse);
-    
-    // We also can use some post-response
-    // data-transformations in the last `then` clause.
 }
 
 export const validateRequest = (resquest: AxiosResponse) => {
@@ -29,13 +16,36 @@ export const validateRequest = (resquest: AxiosResponse) => {
   return false
 }
 
-
 type NewAuthor = {
   name: string,
   address: string,
   city: string,
   uf: string,
   phone: number,
+}
+
+export const deleteRequest = async (path: string) => {
+  let res = false 
+  try {
+    await axios.delete(`http://127.0.0.1:8000/api/${path}`).then((request) => {
+      res = validateRequest(request)
+      if(res) notification.success({
+        message: 'Deleted Succesfuly',
+        description: ''
+      })
+    }).catch((e) => {
+      notification.error({
+        message: 'Error',
+        description: e ? `${e}`: ''
+      })
+    })
+  } catch(e) {
+    notification.error({
+      message: 'Error',
+      description: e ? `${e}`: ''
+    })
+  }
+  return res
 }
 
 export const createAuthor = async (payload: NewAuthor) => {
@@ -56,6 +66,36 @@ export const updateAuthor = async (payload: NewAuthor, id: string) => {
   let res = false
   try {
     await axios.put(`http://127.0.0.1:8000/api/authors/${id}`, payload).then((request) => {
+      res = validateRequest(request)
+    }).catch((e) => {
+      console.log(e)
+    })
+  } catch(e) {
+    console.log(e)
+  }
+  return res
+}
+
+type NewPublisher = NewAuthor
+
+export const createPublisher = async (payload: NewPublisher) => {
+  let res = false
+  try {
+    await axios.post('http://127.0.0.1:8000/api/publishers', payload).then((request) => {
+      res = validateRequest(request)
+    }).catch((e) => {
+      console.log(e)
+    })
+  } catch(e) {
+    console.log(e)
+  }
+  return res
+}
+
+export const updatePublisher = async (payload: NewPublisher, id: string) => {
+  let res = false
+  try {
+    await axios.put(`http://127.0.0.1:8000/api/publishers/${id}`, payload).then((request) => {
       res = validateRequest(request)
     }).catch((e) => {
       console.log(e)
