@@ -35,7 +35,7 @@ export default function NewAuthor() {
     
     if(validatedData.success) {
       try {
-        await axios.post('http://127.0.0.1:8000/authors', parsedForm).then((res) => {
+        await axios.post('http://127.0.0.1:8000/api/authors', parsedForm).then((res) => {
           console.log(res)
         }).catch((e) => {
           console.log(e)

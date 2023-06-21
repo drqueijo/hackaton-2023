@@ -1,34 +1,68 @@
 <?php
 
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Allowed Origins
+    |--------------------------------------------------------------------------
+    |
+    | Define here the allowed origins for CORS requests. The "*" wildcard
+    | can be used to allow all origins to access your application.
+    |
+    */
+    'allowed_origins' => ['*'],
 
     /*
     |--------------------------------------------------------------------------
-    | Cross-Origin Resource Sharing (CORS) Configuration
+    | Allowed Methods
     |--------------------------------------------------------------------------
     |
-    | Here you may configure your settings for cross-origin resource sharing
-    | or "CORS". This determines what cross-origin operations may execute
-    | in web browsers. You are free to adjust these settings as needed.
-    |
-    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+    | Define here the allowed HTTP methods for CORS requests. The "*" wildcard
+    | can be used to allow all methods to access your application.
     |
     */
+    'allowed_methods' => ['GET', 'POST'],
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    /*
+    |--------------------------------------------------------------------------
+    | Allowed Headers
+    |--------------------------------------------------------------------------
+    |
+    | Define here the allowed headers for CORS requests. The "*" wildcard
+    | can be used to allow all headers to access your application.
+    |
+    */
+    'allowed_headers' => ['Content-Type', 'Authorization'],
 
-    'allowed_methods' => ['*'],
-
-    'allowed_origins' => ['*'],
-
-    'allowed_origins_patterns' => [],
-
-    'allowed_headers' => ['*'],
-
+    /*
+    |--------------------------------------------------------------------------
+    | Exposed Headers
+    |--------------------------------------------------------------------------
+    |
+    | Define here the headers that are made accessible to the browser.
+    |
+    */
     'exposed_headers' => [],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Max Age
+    |--------------------------------------------------------------------------
+    |
+    | Define here the max age of the CORS options request in seconds.
+    |
+    */
     'max_age' => 0,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Supports Credentials
+    |--------------------------------------------------------------------------
+    |
+    | Define here whether to allow credentials (cookies, authorization headers, etc)
+    | to be included in CORS requests. Set this to `true` if your API supports
+    | authentication or session handling.
+    |
+    */
     'supports_credentials' => false,
-
 ];

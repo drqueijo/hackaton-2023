@@ -65,7 +65,21 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //falta o update no aluno
+        $validatedData = $request->validate([
+            'ra' => 'required|unique:students,ra,' . $id,
+            'name' => 'required',
+            'address' => 'required',
+            'city' => 'required',
+            'uf' => 'required',
+            'phone' => 'required',
+            'course_id' => 'required|exists:courses,id',
+        ]);
+    
+        $student = Student::findOrFail($id);
+        $student->update($validatedData);
+    
+        return response()->json($student, 200);
     }
 
     /**

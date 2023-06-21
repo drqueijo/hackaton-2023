@@ -48,7 +48,8 @@ class AuthorController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        
     }
 
     /**
@@ -56,7 +57,18 @@ class AuthorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'city' => 'required',
+            'uf' => 'required',
+            'phone' => 'required',
+        ]);
+    
+        $author = Author::findOrFail($id);
+        $author->update($validatedData);
+    
+        return response()->json($author, 200);
     }
 
     /**
@@ -64,6 +76,9 @@ class AuthorController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //falta tbm, deixar aluno inativo" ->
+        $author = Author::findOrFail($id);
+        $author->delete();
+        return response()->json(null, 204);
     }
 }
