@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { FormOutlined, ShopOutlined } from '@ant-design/icons';
+import { BookOutlined, FormOutlined, ShopOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import { useRouter } from 'next/router';
-import { MenuInfo } from 'rc-menu/lib/interface';
+import { type MenuInfo } from 'rc-menu/lib/interface';
 import React from 'react';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -15,6 +15,11 @@ export const routes = [
     name:'Authors',
     path: '/authors',
     icon: FormOutlined
+  },
+  {
+    name:'Courses',
+    path: '/courses',
+    icon: BookOutlined
   },
   {
     name:'Publisers',

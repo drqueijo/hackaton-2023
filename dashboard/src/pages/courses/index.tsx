@@ -6,54 +6,44 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { type ColumnsType } from 'antd/es/table';
 import TableActions from 'n/components/UI/TableActions';
-import { type Publisher } from 'n/server/api/routers/publisher';
+import { type Course } from 'n/server/api/routers/course';
 
-const columns: ColumnsType<Publisher> = [
+const columns: ColumnsType<Course> = [
   {
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'Coordinator',
+    dataIndex: 'coordinator',
+    key: 'coordinator',
   },
   {
-    title: 'City',
-    dataIndex: 'city',
-    key: 'city',
-  },
-  {
-    title: 'UF',
-    dataIndex: 'uf',
-    key: 'uf',
-  },
-  {
-    title: 'Phone',
-    dataIndex: 'phone',
-    key: 'phone',
+    title: 'Duration',
+    dataIndex: 'duration',
+    key: 'duration',
   },
   {
     title: '',
     dataIndex: 'id',
     key: 'id',
-    render: (id, record) => <TableActions id={record.id} pathName='publishers'/>
+    render: (id, record) => <TableActions id={record.id} pathName='courses'/>
   },
 ];
 
 
-const PublishersList: React.FC = ({
+const CoursesList: React.FC = ({
 
 }) => {
   const router = useRouter()
-  const {data} = api.publisher.getAll.useQuery()
+  const {data} = api.course.getAll.useQuery()
 
   return(
     <>
       <Row>
         <Col span={24}>
-          <Button text='Create New Publisher' onClick={() => router.push('/publishers/new')}/>
+          <Button text='Create New Course' onClick={() => router.push('/courses/new')}/>
         </Col>
       </Row>
       <Row>
@@ -66,4 +56,4 @@ const PublishersList: React.FC = ({
   )
 }
 
-export default PublishersList;
+export default CoursesList;

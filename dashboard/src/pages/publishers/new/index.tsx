@@ -6,7 +6,7 @@ import { notification } from "antd";
 import { useRouter } from 'next/router'
 import { createPublisher } from "n/utils/fetch";
 
-export default function NewAuthor() {
+export default function NewPublisher() {
 
   const router = useRouter()
 

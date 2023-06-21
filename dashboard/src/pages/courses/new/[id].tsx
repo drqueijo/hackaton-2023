@@ -4,31 +4,27 @@ import { z } from "zod";
 import Form from "n/components/UI/Form";
 import { notification } from "antd";
 import { useRouter } from 'next/router'
-import { updateAuthor } from "n/utils/fetch";
+import { updateCourse } from "n/utils/fetch";
 import { api } from "n/utils/api";
 
-export default function EditAuthor() {
+export default function EditCourse() {
   
   const router = useRouter()
   const {id} = router.query
-  const {data} = api.author.getById.useQuery(id ? parseInt(id as string) : 1)
+  const {data} = api.course.getById.useQuery(id ? parseInt(id as string) : 1)
 
   const [form, setForm] = useState({
     name: '',
-    address: '',
-    city: '',
-    uf: '',
-    phone: '',
+    coordinator: '',
+    duration: '',
   })
 
   useEffect(() => {
     if(!data) return 
     setForm({
       name: data.name,
-      address: data.address,
-      city: data.city,
-      uf: data.uf,
-      phone: data.phone.toString(),
+      coordinator: data.coordinator,
+      duration: data.duration.toString(),
     })
   }, [data])
 
@@ -36,25 +32,23 @@ export default function EditAuthor() {
     if(!id) return 
     const schema = z.object({
       name: z.string(),
-      address: z.string(),
-      city: z.string(),
-      uf: z.string(),
-      phone: z.number(),
+      coordinator: z.string(),
+      duration: z.number(),
     });
 
     const parsedForm = {
       ...form,
-      phone: parseInt(form.phone)
+      duration: parseInt(form.duration)
     }
     const validatedData = schema.safeParse(parsedForm);
     
     if(validatedData.success) {
-      await updateAuthor(parsedForm, id as string)
+      await updateCourse(parsedForm, id as string)
       notification.success({
         message:'Created sucessfully!!',
         description: ''
       })
-      return router.push('/authors')
+      return router.push('/courses')
     }
 
     if(validatedData.error){
@@ -67,36 +61,25 @@ export default function EditAuthor() {
   }
 
   return (
-    <Form onSubmit={onSubmit} redirect="/authors">
+    <Form onSubmit={onSubmit} redirect="/courses">
       <TextInput 
         label='name'
-        placeholder="jose"
+        placeholder="math"
         onChange={(e) => setForm({...form, name: e.target.value})}
         value={form.name}
       />
       <TextInput 
-        label='address'
-        placeholder="av abcd"
-        onChange={(e) => setForm({...form, address: e.target.value})}
-        value={form.address}
+        label='coordinator'
+        placeholder="jose"
+        onChange={(e) => setForm({...form, coordinator: e.target.value})}
+        value={form.coordinator}
       />
       <TextInput 
-        label='city'
-        placeholder="pindamonhangaba"
-        onChange={(e) => setForm({...form, city: e.target.value})}
-        value={form.city}
-      />
-      <TextInput 
-        label='UF'
-        placeholder="parana"
-        onChange={(e) => setForm({...form, uf: e.target.value})}
-        value={form.uf}
-      />
-      <TextInput 
-        label='phone'
-        placeholder="44 9 9999 9999"
-        onChange={(e) => setForm({...form, phone: e.target.value})}
-        value={form.phone}
+        label='duration'
+        placeholder="32"
+        type='number'
+        onChange={(e) => setForm({...form, duration: e.target.value})}
+        value={form.duration}
       />
     </Form>
   );
