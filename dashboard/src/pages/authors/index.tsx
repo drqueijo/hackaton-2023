@@ -1,6 +1,7 @@
 import { Table } from 'antd';
 import { api } from 'n/utils/api';
 import React from 'react';
+import axios from 'axios'
 
 
 const dataSource = [
@@ -52,6 +53,9 @@ const AuthorsList: React.FC = ({
 
 }) => {
   
+  const authors = axios.get('http://127.0.0.1:8000/api/authors')
+
+  console.log(authors)
   const {data} = api.author.getAll.useQuery()
 
   return(
