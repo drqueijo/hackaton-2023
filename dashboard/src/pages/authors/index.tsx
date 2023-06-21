@@ -1,23 +1,10 @@
-import { Table } from 'antd';
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { Col, Row, Table } from 'antd';
+import Button from 'n/components/UI/Button';
 import { api } from 'n/utils/api';
+import { useRouter } from 'next/router';
 import React from 'react';
 import axios from 'axios'
-
-
-const dataSource = [
-  {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street',
-  },
-];
 
 const columns = [
   {
@@ -48,18 +35,27 @@ const columns = [
 ];
 
 
-
 const AuthorsList: React.FC = ({
 
 }) => {
-  
-  const authors = axios.get('http://127.0.0.1:8000/api/authors')
-
-  console.log(authors)
+  const router = useRouter()
   const {data} = api.author.getAll.useQuery()
 
   return(
-    <Table dataSource={data} columns={columns} />
+    <>
+      <Row>
+        <Col span={24}>
+          <Button text='Create New' onClick={() => router.push('/authors/new')}/>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col span={24}>
+          <Table dataSource={data} columns={columns} />
+        </Col>
+      </Row>
+    </>
+
   )
 }
 

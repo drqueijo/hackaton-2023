@@ -1,5 +1,8 @@
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+/* eslint-disable @typescript-eslint/no-floating-promises */
+import { FormOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
+import { useRouter } from 'next/router';
+import { MenuInfo } from 'rc-menu/lib/interface';
 import React from 'react';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -7,13 +10,36 @@ type DefaultLayoutProps = {
   children: React.ReactNode;
 } 
 
+const routes = [
+  {
+    name:'Authors',
+    path: '/authors',
+    icon: FormOutlined
+  }
+]
+
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({
   children,
 }) => {
+  const router = useRouter()
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const selectedKey =  routes.findIndex((item) => item.path === router.pathname) + 1 ?? 1
+
+  const navigation = async (path: string) => {
+    await router.push(path)
+  }
+  
+  const navigate = (e: MenuInfo) => {
+    const {key} = e
+    let path =  '/'
+    routes.forEach((route, i) => {
+      if(i + 1 === parseInt(key)) path = route.path
+    })
+    navigation(path)
+  }
   return (
     <Layout>
       <Sider
@@ -30,12 +56,13 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['4']}
-          items={[UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
-            (icon, index) => ({
+          onClick={(e) => navigate(e)}
+          defaultSelectedKeys={[selectedKey.toString()]}
+          items={routes.map(
+            (route, index) => ({
               key: String(index + 1),
-              icon: React.createElement(icon),
-              label: `nav ${index + 1}`,
+              icon: React.createElement(route.icon),
+              label: route.name,
             }),
           )}
         />
@@ -43,7 +70,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: '24px 16px 0' }}>
-          <div style={{ padding: 24, minHeight: '87vh', background: colorBgContainer }}>
+          <div style={{ padding: 24, minHeight: '87vh', background: colorBgContainer, margin: 'auto' }}>
             {children}
           </div>
         </Content>

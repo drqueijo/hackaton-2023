@@ -1,4 +1,7 @@
 // Make the `request` function generic
+
+import axios, { AxiosResponse } from "axios";
+
 // to specify the return data type:
 export async function request<TResponse>(
   url: string,
@@ -21,8 +24,30 @@ export async function request<TResponse>(
     // data-transformations in the last `then` clause.
 }
 
-/* fetch('https://jsonplaceholder.typicode.com/posts', {
-  method: "POST",
-  body: JSON.stringify(_data),
-  headers: {"Content-type": "application/json; charset=UTF-8"}
-}) */
+export const validateRequest = (resquest: AxiosResponse) => {
+  if(resquest.status < 300) return true
+  return false
+}
+
+
+type NewAuthor = {
+  name: string,
+  address: string,
+  city: string,
+  uf: string,
+  phone: number,
+}
+
+export const createAuthor = async (payload: NewAuthor) => {
+  let res = false
+  try {
+    await axios.post('http://127.0.0.1:8000/authors', payload).then((request) => {
+      res = validateRequest(request)
+    }).catch((e) => {
+      console.log(e)
+    })
+  } catch(e) {
+    console.log(e)
+  }
+  return res
+}

@@ -5,6 +5,7 @@ import Form from "n/components/UI/Form";
 import { notification } from "antd";
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { createAuthor } from "n/utils/fetch";
 
 export default function NewAuthor() {
 
@@ -34,15 +35,7 @@ export default function NewAuthor() {
     const validatedData = schema.safeParse(parsedForm);
     
     if(validatedData.success) {
-      try {
-        await axios.post('http://127.0.0.1:8000/api/authors', parsedForm).then((res) => {
-          console.log(res)
-        }).catch((e) => {
-          console.log(e)
-        })
-      } catch(e) {
-        console.log(e)
-      }
+      await createAuthor(parsedForm)
       notification.success({
         message:'Created sucessfully!!',
         description: ''
