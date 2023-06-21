@@ -20,10 +20,8 @@ const Form: React.FC<FormProps> = ({
     <form onSubmit={(e) => submit(e)} className="w-full max-w-lg">
       {children}
       <div className="md:flex md:items-center">
-        <div className="md:w-1/3"></div>
-          <Button text='Submit' type='submit' />
-        </div>
-      <div />
+        <Button text='Submit' type='submit' />
+      </div>
     </form>
   );
 }

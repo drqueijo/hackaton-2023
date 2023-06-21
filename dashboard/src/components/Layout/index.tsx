@@ -10,7 +10,7 @@ type DefaultLayoutProps = {
   children: React.ReactNode;
 } 
 
-const routes = [
+export const routes = [
   {
     name:'Authors',
     path: '/authors',

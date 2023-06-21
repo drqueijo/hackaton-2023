@@ -5,8 +5,12 @@ import { api } from 'n/utils/api';
 import { useRouter } from 'next/router';
 import React from 'react';
 import axios from 'axios'
+import { ColumnsType } from 'antd/es/table';
+import TableActions from 'n/components/UI/TableActions';
+import { Author } from 'n/server/api/routers/author';
+import { routes } from 'n/components/Layout';
 
-const columns = [
+const columns: ColumnsType<Author> = [
   {
     title: 'Name',
     dataIndex: 'name',
@@ -32,6 +36,12 @@ const columns = [
     dataIndex: 'phone',
     key: 'phone',
   },
+  {
+    title: 'id',
+    dataIndex: 'id',
+    key: 'id',
+    render: (id, record) => <TableActions id={record.id} pathName='/authors'/>
+  },
 ];
 
 
@@ -48,7 +58,6 @@ const AuthorsList: React.FC = ({
           <Button text='Create New' onClick={() => router.push('/authors/new')}/>
         </Col>
       </Row>
-
       <Row>
         <Col span={24}>
           <Table dataSource={data} columns={columns} />

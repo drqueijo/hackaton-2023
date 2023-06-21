@@ -41,7 +41,21 @@ type NewAuthor = {
 export const createAuthor = async (payload: NewAuthor) => {
   let res = false
   try {
-    await axios.post('http://127.0.0.1:8000/authors', payload).then((request) => {
+    await axios.post('http://127.0.0.1:8000/api/authors', payload).then((request) => {
+      res = validateRequest(request)
+    }).catch((e) => {
+      console.log(e)
+    })
+  } catch(e) {
+    console.log(e)
+  }
+  return res
+}
+
+export const updateAuthor = async (payload: NewAuthor, id: string) => {
+  let res = false
+  try {
+    await axios.put(`http://127.0.0.1:8000/api/authors/${id}`, payload).then((request) => {
       res = validateRequest(request)
     }).catch((e) => {
       console.log(e)

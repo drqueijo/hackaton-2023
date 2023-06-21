@@ -1,14 +1,17 @@
 import TextInput from "n/components/UI/TextInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import Form from "n/components/UI/Form";
 import { notification } from "antd";
 import { useRouter } from 'next/router'
-import { createAuthor } from "n/utils/fetch";
+import { updateAuthor } from "n/utils/fetch";
+import { api } from "n/utils/api";
 
 export default function NewAuthor() {
-
+  
   const router = useRouter()
+  const {id} = router.query
+  const {data} = api.author.getById.useQuery(id ? parseInt(id as string) : 1)
 
   const [form, setForm] = useState({
     name: '',
@@ -18,7 +21,19 @@ export default function NewAuthor() {
     phone: '',
   })
 
+  useEffect(() => {
+    if(!data) return 
+    setForm({
+      name: data.name,
+      address: data.address,
+      city: data.city,
+      uf: data.uf,
+      phone: data.phone.toString(),
+    })
+  }, [data])
+
   const onSubmit = async () => {
+    if(!id) return 
     const schema = z.object({
       name: z.string(),
       address: z.string(),
@@ -34,7 +49,7 @@ export default function NewAuthor() {
     const validatedData = schema.safeParse(parsedForm);
     
     if(validatedData.success) {
-      await createAuthor(parsedForm)
+      await updateAuthor(parsedForm, id as string)
       notification.success({
         message:'Created sucessfully!!',
         description: ''
