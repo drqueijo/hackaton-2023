@@ -1,75 +1,63 @@
-import TextInput from "n/components/UI/TextInput";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import Form from "n/components/UI/Form";
 import { notification } from "antd";
 import { useRouter } from 'next/router'
-import { updateBook } from "n/utils/fetch";
+import { updateReservation } from "n/utils/fetch";
 import { api } from "n/utils/api";
 import Select, { type SelectOptions } from "n/components/UI/SelectInput";
+import DatePicker, { type RangePickerValues } from "n/components/UI/DatePicker";
+import moment from "moment";
 
 export default function EditReservation() {
   
   const router = useRouter()
   const {id} = router.query
-  const {data} = api.book.getById.useQuery(id ? parseInt(id as string) : 1)
-  const publishers = api.publisher.getAll.useQuery()
-  const authors = api.author.getAll.useQuery()
-
+  const {data} = api.reservation.getById.useQuery(id ? parseInt(id as string) : 1)
+  const students = api.student.getAll.useQuery()
+  const books = api.book.getAll.useQuery()
+  const [timeRange, setTimeRange] = useState<RangePickerValues>([
+    moment(),
+    moment().add(1, 'M'),
+  ])
   const [form, setForm] = useState({
-    title: '',
-    subtitle: '',
-    image: '',
-    isbn: '',
-    place: '',
-    year: '',
-    publisher_id: '',
-    author_id:'',
+    student_id: '',
+    book_id: '',
   })
 
   useEffect(() => {
     if(!data) return 
     setForm({
-      title: data.title,
-      isbn: data.isbn,
-      place: data.place,
-      image: data.image,
-      subtitle: data.subtitle,
-      year: data.year.toString(),
-      publisher_id: data.publisher_id.toString(),
-      author_id: data.author_id.toString(),
+      student_id: data.student_id.toString(),
+      book_id: data.book_id.toString(),
     })
   }, [data])
 
   const onSubmit = async () => {
     if(!id) return 
     const schema = z.object({
-      title: z.string(),
-      isbn: z.string(),
-      image: z.string(),
-      place: z.string(),
-      subtitle: z.string(),
-      year: z.number(),
-      publisher_id: z.number(),
-      author_id: z.number(),
+      student_id: z.number(),
+      book_id: z.number(),
+      start_date: z.string(),
+      end_date: z.string()
     });
 
     const parsedForm = {
-      ...form,
-      year: parseInt(form.year),
-      publisher_id: parseInt(form.publisher_id),
-      author_id: parseInt(form.author_id),
+      start_date: timeRange[0].format('YYYY-MM-DD'),
+      end_date: timeRange[1].format('YYYY-MM-DD'),
+      student_id: parseInt(form.student_id),
+      book_id: parseInt(form.book_id),
     }
 
     const validatedData = schema.safeParse(parsedForm);
     
     if(validatedData.success) {
-      await updateBook(parsedForm, id as string)
+      await updateReservation(parsedForm, id as string)
       notification.success({
         message:'Created sucessfully!!',
         description: ''
       })
-      return router.push('/books')
+      return router.push('/reservations')
     }
 
     if(validatedData.error){
@@ -80,64 +68,37 @@ export default function EditReservation() {
     }
   }
 
-  const publishersOptions: SelectOptions | undefined = publishers.data?.map((publisher) => {
+  const studentsOptions: SelectOptions | undefined = students.data?.map((publisher) => {
     return {
       value: publisher.id,
       label: publisher.name
     }
   })
-
-  const authorsOptions: SelectOptions | undefined = authors.data?.map((author) => {
+  const booksOptions: SelectOptions | undefined = books.data?.map((author) => {
     return {
       value: author.id,
-      label: author.name
+      label: author.title
     }
   })
 
   return (
-    <Form onSubmit={onSubmit} redirect="/books">
-      <TextInput 
-        label='title'
-        placeholder="math 2"
-        onChange={(e) => setForm({...form, title: e.target.value})}
-        value={form.title}
-      />
-      <TextInput 
-        label='subtitle'
-        placeholder="book of math"
-        onChange={(e) => setForm({...form, subtitle: e.target.value})}
-        value={form.subtitle}
-      />
-      <TextInput 
-        label='Image'
-        placeholder="https://image.com"
-        onChange={(e) => setForm({...form, image: e.target.value})}
-        value={form.image}
-      />
-      <TextInput 
-        label='place'
-        placeholder="jose"
-        onChange={(e) => setForm({...form, place: e.target.value})}
-        value={form.place}
-      />
-      <TextInput 
-        label='year'
-        placeholder="2023"
-        type='number'
-        onChange={(e) => setForm({...form, year: e.target.value})}
-        value={form.year}
+    <Form onSubmit={onSubmit} redirect="/reservations">
+      <Select
+        label='Student'
+        onChange={(e) => setForm({...form, student_id: e as string})}
+        defaultValue={form.student_id}
+        options={studentsOptions ?? []}
       />
       <Select
-        label='publisher'
-        onChange={(e) => setForm({...form, publisher_id: e as string})}
-        defaultValue={form.publisher_id}
-        options={publishersOptions ?? []}
+        label='Author'
+        onChange={(e) => setForm({...form, book_id: e as string})}
+        defaultValue={form.book_id}
+        options={booksOptions ?? []}
       />
-      <Select
-        label='author'
-        onChange={(e) => setForm({...form, author_id: e as string})}
-        defaultValue={form.author_id}
-        options={authorsOptions ?? []}
+      <DatePicker
+        label='Start date and end Date'
+        allowClear={false}
+        onChange={(e) => setTimeRange(e)}
       />
     </Form>
   );
