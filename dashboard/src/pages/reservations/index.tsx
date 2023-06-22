@@ -33,7 +33,7 @@ const columns: ColumnsType<Reservation> = [
     title: '',
     dataIndex: 'id',
     key: 'id',
-    render: (id, record) => <TableActions id={record.id} pathName='authors'/>
+    render: (id, record) => <TableActions id={record.id} pathName='reservations'/>
   },
 ];
 
