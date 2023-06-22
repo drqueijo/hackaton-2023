@@ -3,36 +3,31 @@ import { Col, Row, Table } from 'antd';
 import Button from 'n/components/UI/Button';
 import { api } from 'n/utils/api';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
+import { type Reservation } from 'n/server/api/routers/reservation';
 import { type ColumnsType } from 'antd/es/table';
 import TableActions from 'n/components/UI/TableActions';
-import { type Author } from 'n/server/api/routers/author';
 
-const columns: ColumnsType<Author> = [
+const columns: ColumnsType<Reservation> = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
+    title: 'Student Name',
+    dataIndex: 'student_name',
+    key: 'student_name',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'Book Title',
+    dataIndex: 'book_title',
+    key: 'book_title',
   },
   {
-    title: 'City',
-    dataIndex: 'city',
-    key: 'city',
+    title: 'Start Date',
+    dataIndex: 'start_date',
+    key: 'start_date',
   },
   {
-    title: 'UF',
-    dataIndex: 'uf',
-    key: 'uf',
-  },
-  {
-    title: 'Phone',
-    dataIndex: 'phone',
-    key: 'phone',
+    title: 'end_date',
+    dataIndex: 'end_date',
+    key: 'end_date',
   },
   {
     title: '',
@@ -42,18 +37,16 @@ const columns: ColumnsType<Author> = [
   },
 ];
 
+const ReservationsList: React.FC = () => {
 
-const AuthorsList: React.FC = ({
-
-}) => {
   const router = useRouter()
-  const authors = api.author.getAll.useQuery()
-  const {data} = authors
+  const {data} = api.reservation.getAll.useQuery()
+
   return(
     <>
       <Row>
         <Col span={24}>
-          <Button text='Create New Author' onClick={() => router.push('/authors/new')}/>
+          <Button text='Create New Reservation' onClick={() => router.push('/reservations/new')}/>
         </Col>
       </Row>
       <Row>
@@ -65,4 +58,4 @@ const AuthorsList: React.FC = ({
   )
 }
 
-export default AuthorsList;
+export default ReservationsList;

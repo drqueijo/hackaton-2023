@@ -12,7 +12,11 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = Reservation::all();
+        $reservations = Reservation::join('students', 'reservations.student_id', '=', 'students.id')
+        ->join('books', 'reservations.book_id', '=', 'books.id')
+        ->select('reservations.*', 'students.name as student_name', 'books.title as book_title')
+        ->get();
+
         return response()->json($reservations);
     }
 
