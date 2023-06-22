@@ -11,7 +11,7 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'title', 'subtitle', 'isbn', 'author_id', 'publisher_id', 'local', 'year', 'image'];
+    protected $fillable = [ 'title', 'subtitle', 'isbn', 'place', 'author_id', 'publisher_id', 'local', 'year', 'image'];
 
 
     public function author(): BelongsTo

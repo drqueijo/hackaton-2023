@@ -2,7 +2,7 @@ import Head from "next/head";
 import { api } from "n/utils/api";
 
 export default function Home() {
-  const authors = api.author.getAll.useQuery()
+  const {data} = api.book.getAll.useQuery()
 
   return (
     <>
@@ -12,7 +12,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        {console.log(authors.data)}
+
       </div>
     </>
   );

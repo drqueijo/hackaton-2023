@@ -1,24 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { Card as AntdCard} from 'antd';
-import Image from 'next/image'
 const { Meta } = AntdCard;
 
 type CardProps = {
   img: string,
   title: string,
-  desc: string
+  desc: string,
+  onClick: () => any
 }
 const Card: React.FC<CardProps> = ({
   img,
   title,
-  desc
+  desc,
+  onClick
 }) => (
   <AntdCard
     hoverable
+    onClick={onClick}
     style={{ width: 240 }}
-    cover={<Image alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+    cover={<img alt={title} src={img} />}
   >
-    <Meta title="Europe Street beat" description="www.instagram.com" />
+    <Meta title={title}  description={desc}  />
   </AntdCard>
 );
 
