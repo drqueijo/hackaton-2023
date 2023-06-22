@@ -23,31 +23,32 @@ const Select: React.FC<SelectProps>= ({
   options,
   label,
   isRequired
-}) => (
-  <div className="md:w-3/3 mr-auto mb-8 ">
-    <div className="w-full">
-      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor={label}>
-        {label}
-      </label>
-      <AntdSelect
-        onChange={onChange}
-        showSearch
-        id={label}
-        defaultValue={defaultValue}
-        style={{ width: '100%' }}
-        placeholder="Search to Select"
-        optionFilterProp="children"
-        filterOption={(input, option) => (option?.label ?? '').includes(input)}
-        filterSort={(optionA, optionB) =>
-          (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-        }
-        options={options}
-      />
-      {isRequired && <p className="text-gray-600 text-xs italic">Please fill out this field.</p>}
+}) => {
+
+  return (
+    <div className="md:w-3/3 mr-auto mb-8 ">
+      <div className="w-full">
+        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor={label}>
+          {label}
+        </label>
+        <AntdSelect
+          onChange={onChange}
+          showSearch
+          id={label}
+          defaultValue={defaultValue}
+          style={{ width: '100%' }}
+          placeholder="Search to Select"
+          optionFilterProp="children"
+          filterOption={(input, option) => (option?.label ?? '').includes(input)}
+          filterSort={(optionA, optionB) =>
+            (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+          }
+          options={options}
+        />
+        {isRequired && <p className="text-gray-600 text-xs italic">Please fill out this field.</p>}
+      </div>
     </div>
-
-  </div>
-
-);
+  )
+}
 
 export default Select;

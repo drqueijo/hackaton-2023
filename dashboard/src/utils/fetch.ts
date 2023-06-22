@@ -178,3 +178,41 @@ export const updateBook = async (payload: NewBook, id: string) => {
   }
   return res
 }
+
+type NewStudent = {
+  ra: string,
+  name: string,
+  address: string,
+  city: string,
+  uf: string,
+  phone: number,
+  course_id: number,
+}
+
+export const createStudent = async (payload: NewStudent) => {
+  let res = false
+  try {
+    await axios.post('http://127.0.0.1:8000/api/students', payload).then((request) => {
+      res = validateRequest(request)
+    }).catch((e) => {
+      console.log(e)
+    })
+  } catch(e) {
+    console.log(e)
+  }
+  return res
+}
+
+export const updateStudent = async (payload: NewStudent, id: string) => {
+  let res = false
+  try {
+    await axios.put(`http://127.0.0.1:8000/api/students/${id}`, payload).then((request) => {
+      res = validateRequest(request)
+    }).catch((e) => {
+      console.log(e)
+    })
+  } catch(e) {
+    console.log(e)
+  }
+  return res
+}

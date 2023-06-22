@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { BookOutlined, FormOutlined, HighlightOutlined, ShopOutlined } from '@ant-design/icons';
+import { BookOutlined, FormOutlined, HighlightOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import { useRouter } from 'next/router';
 import { type MenuInfo } from 'rc-menu/lib/interface';
@@ -25,6 +25,11 @@ export const routes = [
     name:'Publisers',
     path: '/publishers',
     icon: ShopOutlined
+  },
+  {
+    name:'Students',
+    path: '/students',
+    icon: UserOutlined
   },
   {
     name:'Books',

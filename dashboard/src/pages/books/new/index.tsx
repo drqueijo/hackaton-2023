@@ -8,7 +8,7 @@ import { createBook } from "n/utils/fetch";
 import Select, { type SelectOptions } from "n/components/UI/SelectInput";
 import { api } from "n/utils/api";
 
-export default function NewCourse() {
+export default function NewBook() {
 
   const router = useRouter()
 

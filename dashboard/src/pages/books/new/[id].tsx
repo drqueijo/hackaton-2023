@@ -8,7 +8,7 @@ import { updateBook } from "n/utils/fetch";
 import { api } from "n/utils/api";
 import Select, { type SelectOptions } from "n/components/UI/SelectInput";
 
-export default function EditCourse() {
+export default function EditBook() {
   
   const router = useRouter()
   const {id} = router.query
@@ -37,7 +37,7 @@ export default function EditCourse() {
       subtitle: data.subtitle,
       year: data.year.toString(),
       publisher_id: data.publisher_id.toString(),
-      author_id: data.publisher_id.toString(),
+      author_id: data.author_id.toString(),
     })
   }, [data])
 
@@ -104,7 +104,7 @@ export default function EditCourse() {
       />
       <TextInput 
         label='subtitle'
-        placeholder="https://image.com"
+        placeholder="book of math"
         onChange={(e) => setForm({...form, subtitle: e.target.value})}
         value={form.subtitle}
       />
