@@ -49,7 +49,7 @@ export const ButtonReturn: React.FC<ButtonReturnProps> = ({
   }
 
   return (
-    <div className="md:w-3/3 mr-auto">
+    <div className="md:w-3/3 mr-auto mb-4">
       <button
         onClick={redirect} 
         className="shadow bg-red-500 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded flex items-center gap-3" 

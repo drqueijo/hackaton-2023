@@ -43,7 +43,7 @@ const columns: ColumnsType<Publisher> = [
 ];
 
 
-const AuthorsList: React.FC = ({
+const PublishersList: React.FC = ({
 
 }) => {
   const router = useRouter()
@@ -66,4 +66,4 @@ const AuthorsList: React.FC = ({
   )
 }
 
-export default AuthorsList;
+export default PublishersList;

@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { updatePublisher } from "n/utils/fetch";
 import { api } from "n/utils/api";
 
-export default function NewAuthor() {
+export default function EditPublisher() {
   
   const router = useRouter()
   const {id} = router.query

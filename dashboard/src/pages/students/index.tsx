@@ -6,13 +6,18 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { type ColumnsType } from 'antd/es/table';
 import TableActions from 'n/components/UI/TableActions';
-import { type Author } from 'n/server/api/routers/author';
+import { type Student } from 'n/server/api/routers/student';
 
-const columns: ColumnsType<Author> = [
+const columns: ColumnsType<Student> = [
   {
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
+  },
+  {
+    title: 'RA',
+    dataIndex: 'ra',
+    key: 'ra',
   },
   {
     title: 'Address',
@@ -38,22 +43,20 @@ const columns: ColumnsType<Author> = [
     title: '',
     dataIndex: 'id',
     key: 'id',
-    render: (id, record) => <TableActions id={record.id} pathName='authors'/>
+    render: (id, record) => <TableActions id={record.id} pathName='students'/>
   },
 ];
 
 
-const AuthorsList: React.FC = ({
-
-}) => {
+const AuthorsList: React.FC = () => {
   const router = useRouter()
-  const authors = api.author.getAll.useQuery()
+  const authors = api.student.getAll.useQuery()
   const {data} = authors
   return(
     <>
       <Row>
         <Col span={24}>
-          <Button text='Create New Author' onClick={() => router.push('/authors/new')}/>
+          <Button text='Create New Student' onClick={() => router.push('/students/new')}/>
         </Col>
       </Row>
       <Row>

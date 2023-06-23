@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BookController extends Controller
 {
@@ -32,12 +33,17 @@ class BookController extends Controller
         $validatedData = $request->validate([
             'title' => 'required',
             'subtitle' => 'required',
-            'isbn' => 'required',
+            'image' => 'required',
             'place' => 'required',
             'year' => 'required|integer',
             'publisher_id' => 'required|exists:publishers,id',
             'author_id' => 'required|exists:authors,id',
         ]);
+
+        if (empty($isbn)) {
+            $isbn = Str::uuid()->toString();
+            $validatedData['isbn'] = $isbn;
+        }
 
         $book = Book::create($validatedData);
         return response()->json($book, 201);
@@ -68,7 +74,7 @@ class BookController extends Controller
         $validatedData = $request->validate([
             'title' => 'required',
             'subtitle' => 'required',
-            'isbn' => 'required',
+            'image' => 'required',
             'place' => 'required',
             'year' => 'required|integer',
             'publisher_id' => 'required|exists:publishers,id',
