@@ -27,6 +27,7 @@ Route::resource('books', BookController::class);
 Route::resource('students', StudentController::class);
 Route::resource('reservations', ReservationController::class);
 
-Route::post('/app/login', [AppController::class, 'login']);
+Route::get('/app/login/{ra}', [AppController::class, 'login']);
 Route::get('/app/books', [AppController::class, 'getBooks']);
 Route::get('/app/books/{id}', [AppController::class, 'getBookDetails']);
+Route::get('/app/userbooks/{id}', [AppController::class, 'getBooksReservationByUserId']);
