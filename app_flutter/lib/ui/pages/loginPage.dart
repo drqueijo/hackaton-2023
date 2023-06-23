@@ -1,40 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class LoginScreen extends StatelessWidget {
-  final TextEditingController raController = TextEditingController();
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}):super(key: key);
+  
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
 
-  void login(BuildContext context) async {
-    final String ra = raController.text;
+class _LoginPageState extends State<LoginPage> {
+  TextEditingController _raController = TextEditingController();
+  bool _isLoading = false;
 
-    final response = await http.get(
-      Uri.parse('           $ra'),
+  Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    final response = await http.post(
+      Uri.parse('http://127.0.0.1:8000/api/app/login'), 
+      body: {
+        'ra': _raController.text,
+      },
     );
 
     if (response.statusCode == 200) {
- 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ),
-      );
-    } else {
+      final responseData = json.decode(response.body);
 
+  
+      if (responseData['message'] == 'RA permitido') {
+     
+        Navigator.pushReplacementNamed(context, '/lista_livros.dart');
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Erro'),
+              content: Text('RA inválido'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } else {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Erro'),
-          content: Text('RA inválido. Por favor, tente novamente.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
-            ),
-          ],
-        ),
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Erro'),
+            content: Text('Erro ao fazer login'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
       );
     }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -49,33 +88,20 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: raController,
-              keyboardType: TextInputType.number,
+              controller: _raController,
               decoration: InputDecoration(
                 labelText: 'RA',
               ),
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () => login(context),
-              child: Text('Entrar'),
+              onPressed: _isLoading ? null : _login,
+              child: _isLoading
+                  ? CircularProgressIndicator()
+                  : Text('Entrar'),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
-      body: Center(
-        child: Text('Bem-vindo!'),
       ),
     );
   }
