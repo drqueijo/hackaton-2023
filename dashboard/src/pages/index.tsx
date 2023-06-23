@@ -1,4 +1,4 @@
-import { BookOutlined, CheckOutlined, FormOutlined, HighlightOutlined, ShopOutlined } from "@ant-design/icons";
+import { BookOutlined, CheckOutlined, FormOutlined, HighlightOutlined, ShopOutlined, UserOutlined } from "@ant-design/icons";
 import Button from "n/components/UI/Button";
 import { api } from "n/utils/api";
 import { signIn, useSession } from "next-auth/react";
@@ -37,7 +37,7 @@ export default function Home() {
           </div>
           <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
             <div className="border-2 border-gray-200 px-4 py-6 rounded-lg">
-              <ShopOutlined className="text-indigo-500 w-12 h-12 mb-3 inline-block text-4xl"/>
+              <UserOutlined className="text-indigo-500 w-12 h-12 mb-3 inline-block text-4xl"/>
               <h2 className="title-font font-medium text-3xl text-gray-900">{data?.students}</h2>
               <p className="leading-relaxed">Students</p>
             </div>
