@@ -1,4 +1,6 @@
+import 'package:app_flutter/models/livros.dart';
 import 'package:app_flutter/ui/api/api.dart';
+import 'package:app_flutter/ui/pages/detalhes_livros.dart';
 import 'package:flutter/material.dart';
 
 class ListaLivros extends StatefulWidget {
@@ -23,6 +25,15 @@ class _ListaLivrosState extends State<ListaLivros> {
     setState(() {});
   }
 
+  void _navigateToDetalhesLivro(dynamic livro) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetalhesLivro(livro: livro),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +56,10 @@ class _ListaLivrosState extends State<ListaLivros> {
             return ListView.builder(
               itemCount: listaLivros?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
+                final livro = listaLivros?[index];
                 return ListTile(
-                  title: Text(listaLivros?[index].toString() ?? ''),
+                  title: Text(livro['title'].toString()),
+                  onTap: () => _navigateToDetalhesLivro(livro),
                 );
               },
             );
