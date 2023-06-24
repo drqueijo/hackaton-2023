@@ -91,7 +91,9 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
         breakpoint="lg"
         collapsedWidth="0"
       >
-        <div className="demo-logo-vertical" />
+        <div className="demo-logo-vertical" >
+          <img src="/UNIBOOKS.png" alt="" />
+        </div>
         <Menu
           theme="dark"
           mode="inline"

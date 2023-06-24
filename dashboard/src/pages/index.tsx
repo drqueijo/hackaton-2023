@@ -10,9 +10,7 @@ export default function Home() {
   
   return (
     <section className="text-gray-600 body-font">
-      <div className="container px-5 py-24 mx-auto">
-        {sessionData && <Introduction userName={sessionData.user?.name}/>}
-        {!sessionData && <LoginButton />}
+      <div className="container px-5 pb-24 mx-auto">
         <div className="flex flex-wrap -m-4 text-center">
           <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
             <div className="border-2 border-gray-200 px-4 py-6 rounded-lg">
@@ -56,6 +54,8 @@ export default function Home() {
               <p className="leading-relaxed">Books</p>
             </div>
           </div>
+          {sessionData && <Introduction userName={sessionData.user?.name}/>}
+          {!sessionData && <LoginButton />}
         </div>
       </div>
     </section>
