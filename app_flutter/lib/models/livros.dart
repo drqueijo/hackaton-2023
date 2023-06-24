@@ -19,20 +19,14 @@ class Livros{
   required this.autor,
   required this.editora});
 
-  factory Livros.fromMap(Map<String, dynamic> mapa){
-    int numero = (mapa['url']??'').toString()
-    .replaceAll('', '')
-    .replaceAll('', '').toInt();
-
-    return Livros(
-      codigo: numero,
-      nome: mapa['title']?? '',
-      legenda: mapa['subtitle'],
-      isbn: mapa['isbn'],
-      lugar: mapa['local'],
-      ano: mapa['year'],
-      autor: mapa['author'],
-      editora: mapa['publisher']
-    );
+  factory Livros.fromJson(Map<String, dynamic> mapa) => Livros(
+    codigo:mapa["codigo"],
+    nome: mapa["nome"],
+    legenda: mapa["legenda"],
+    isbn: mapa["isbn"],
+    lugar: mapa["lugar"],
+    ano: mapa["ano"] ,
+    autor: mapa["autor"],
+    editora: mapa["editora"],);
+  
   }
-}
