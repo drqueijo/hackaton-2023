@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { BookOutlined, CheckOutlined, FormOutlined, HighlightOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
+import { BookOutlined, CheckOutlined, FormOutlined, HighlightOutlined, HomeOutlined, LoginOutlined, LogoutOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
+import Home from 'n/pages';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { type MenuInfo } from 'rc-menu/lib/interface';
 import React from 'react';
@@ -11,6 +13,11 @@ type DefaultLayoutProps = {
 } 
 
 export const routes = [
+  {
+    name:'Home',
+    path: '/',
+    icon: HomeOutlined
+  },
   {
     name:'Authors',
     path: '/authors',
@@ -50,6 +57,13 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const { data: sessionData } = useSession();
+
+  const loginButton = {
+    name: sessionData ? 'Logout' : 'Login',
+    path: 'login/logout',
+    icon: sessionData ? LogoutOutlined : LoginOutlined
+  }
 
   const selectedKey =  routes.findIndex((item) => router.pathname.includes(item.path)) + 1 ?? 1
 
@@ -60,9 +74,15 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
   const navigate = (e: MenuInfo) => {
     const {key} = e
     let path =  '/'
+
+    if(parseInt(key) > routes.length) {
+      return sessionData ? signOut() : signIn()
+    }
+
     routes.forEach((route, i) => {
       if(i + 1 === parseInt(key)) path = route.path
     })
+
     navigation(path)
   }
   return (
@@ -70,20 +90,14 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
       >
         <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
           mode="inline"
-          onClick={(e) => navigate(e)}
+          onClick={(e) => void navigate(e)}
           defaultSelectedKeys={[selectedKey.toString()]}
-          items={routes.map(
+          items={[...routes, loginButton].map(
             (route, index) => ({
               key: String(index + 1),
               icon: React.createElement(route.icon),
@@ -96,7 +110,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: '24px 16px 0' }}>
           <div style={{ padding: 24, minHeight: '87vh', background: colorBgContainer, margin: 'auto' }}>
-            {children}
+            {sessionData  ? children : <Home />}
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Hackaton ©2023</Footer>

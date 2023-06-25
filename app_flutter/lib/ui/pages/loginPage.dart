@@ -1,10 +1,15 @@
+import 'package:app_flutter/models/login.dart';
+import 'package:app_flutter/ui/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../api/globais.dart';
+
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}):super(key: key);
-  
+  const LoginPage({Key? key}) : super(key: key);
+  static const routeName = '/loginPage';
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -12,93 +17,65 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _raController = TextEditingController();
   bool _isLoading = false;
+  bool logado = false;
 
-  Future<void> _login() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    final response = await http.post(
-      Uri.parse('http://127.0.0.1:8000/api/app/login'), 
-      body: {
-        'ra': _raController.text,
-      },
+  Future<Login> logar(String ra) async {
+    var response = await http.get(
+      Uri.parse(Globais.linkGetLogin + ra),
     );
-
     if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);
-
-  
-      if (responseData['message'] == 'RA permitido') {
-     
-        Navigator.pushReplacementNamed(context, '/lista_livros.dart');
-      } else {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Erro'),
-              content: Text('RA inválido'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            );
-          },
+      setState(() {
+        logado = true;
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (route) => false,
         );
-      }
+        var decodedJson = json.decode(response.body);
+        populateUser(decodedJson);
+      });
     } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Erro'),
-            content: Text('Erro ao fazer login'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
+      setState(() {
+        logado = false;
+      });
     }
 
-    setState(() {
-      _isLoading = false;
-    });
+    var decodedJson = json.decode(response.body);
+    return populateUser(decodedJson);
+  }
+
+  Login populateUser(Map<String, dynamic> json) {
+    Login login = Login.fromJson(json['data']);
+    login.id = json['data']['id'];
+    login.ra = json['data']['ra'];
+    return login;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               controller: _raController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'RA',
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: _isLoading ? null : _login,
+              onPressed: () {
+                logar(_raController.text);
+              },
               child: _isLoading
-                  ? CircularProgressIndicator()
-                  : Text('Entrar'),
+                  ? const CircularProgressIndicator()
+                  : const Text('Entrar'),
             ),
           ],
         ),

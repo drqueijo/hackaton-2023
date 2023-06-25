@@ -8,6 +8,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,8 @@ Route::resource('publishers', PublisherController::class);
 Route::resource('books', BookController::class);
 Route::resource('students', StudentController::class);
 Route::resource('reservations', ReservationController::class);
+Route::get('/home', [HomeController::class, 'generalInfo']);
+
 
 Route::get('/app/login/{ra}', [AppController::class, 'login']);
 Route::get('/app/books', [AppController::class, 'getBooks']);
