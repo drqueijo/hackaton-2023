@@ -1,4 +1,7 @@
 import 'package:app_flutter/ui/widgets/botao.dart';
+import 'package:app_flutter/ui/pages/lista_livros.dart';
+import 'package:app_flutter/ui/pages/livros_reservados.dart';
+import 'package:app_flutter/ui/pages/detalhes_alunos.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,18 +28,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pushNamed(context, ListaLivros.routeName);
               },
             ),
+<<<<<<< HEAD
             Botao(
               texto: 'Detalhes do Aluno',
               onPressed: () {
                 Navigator.pushNamed(context, DetalhesAluno.routeName);
               },
             ),
+=======
+
+           /*
+>>>>>>> 8c951d264d1584a3e3a866e3deb5bc4b5dee535b
             Botao(
               texto: 'Livros Reservados',
               onPressed: () {
                 Navigator.pushNamed(context, LivrosReservados.routeName);
               },
             ),
+            */
+
+            Botao(
+              texto: 'Detalhes do Aluno',
+              onPressed: () {
+                Navigator.pushNamed(context, DetalhesAluno.routeName);
+              },
+            ),
+          
           ],
         ),
       ),
@@ -44,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+<<<<<<< HEAD
 class ListaLivros extends StatelessWidget {
   static const routeName = '/lista_Livros';
 
@@ -91,3 +109,5 @@ class LivrosReservados extends StatelessWidget {
     );
   }
 }
+=======
+>>>>>>> 8c951d264d1584a3e3a866e3deb5bc4b5dee535b

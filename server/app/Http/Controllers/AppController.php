@@ -17,7 +17,7 @@ class AppController extends Controller
 
             return response()->json(['student_id' => $student->id, 'message' => 'RA permitido']);
         }
-        return response()->json(['student_id' => false, 'message' => 'RA não cadastrado']);
+        return response()->json(['student_id' => false, 'message' => 'RA não cadastrado'], 404);
     }
 
 
@@ -41,4 +41,5 @@ class AppController extends Controller
 
         return response()->json($books);
     }
+
 }
