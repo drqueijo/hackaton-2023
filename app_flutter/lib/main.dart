@@ -21,13 +21,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => HomeScreen(),
         LoginPage.routeName: (context) => LoginPage(),
         ListaLivros.routeName: (context) => ListaLivros(),
-<<<<<<< HEAD
-        LivrosReservados.routeName: (context) => LivrosReservados(),
-        DetalhesAluno.routeName:(context) => DetalhesAluno(),
-=======
         //LivrosReservados.routeName: (context) => LivrosReservados(),
         DetalhesAluno.routeName: (context) => DetalhesAluno(),
->>>>>>> 8c951d264d1584a3e3a866e3deb5bc4b5dee535b
       },
     );
   }

@@ -38,6 +38,11 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         logado = false;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('RA inválido ou não cadastrado.'),
+        ),
+      );
     }
 
     var decodedJson = json.decode(response.body);
@@ -55,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // Remover o botão de voltar
         title: const Text('Login'),
       ),
       body: Padding(

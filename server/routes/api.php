@@ -29,7 +29,6 @@ Route::resource('students', StudentController::class);
 Route::resource('reservations', ReservationController::class);
 Route::get('/home', [HomeController::class, 'generalInfo']);
 
-
 Route::get('/app/login/{ra}', [AppController::class, 'login']);
 Route::get('/app/books', [AppController::class, 'getBooks']);
 Route::get('/app/books/{id}', [AppController::class, 'getBookDetails']);
