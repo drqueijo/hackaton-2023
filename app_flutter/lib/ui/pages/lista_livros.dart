@@ -1,4 +1,6 @@
 import 'package:app_flutter/models/livros.dart';
+import 'package:app_flutter/models/editora.dart';
+import 'package:app_flutter/models/autor.dart';
 import 'package:app_flutter/ui/api/api.dart';
 import 'package:app_flutter/ui/pages/detalhes_livros.dart';
 import 'package:flutter/material.dart';

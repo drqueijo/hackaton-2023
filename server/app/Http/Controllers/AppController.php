@@ -23,13 +23,13 @@ class AppController extends Controller
 
     public function getBooks()
     {
-        $books = Book::select('id', 'title', 'subtitle')->get();
+        $books = Book::with('author', 'publisher')->get();
         return response()->json($books);
     }
 
     public function getBookDetails(string $id)
     {
-        $books = Book::with('author', 'publisher')->findOrFail($id);
+        $books = Book::with('author', 'publisher',)->findOrFail($id);
         return response()->json($books);
     }
 

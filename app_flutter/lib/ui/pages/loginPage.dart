@@ -38,6 +38,11 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         logado = false;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('RA inválido ou não cadastrado.'),
+        ),
+      );
     }
 
     var decodedJson = json.decode(response.body);
@@ -55,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // Remover o botão de voltar
         title: const Text('Login'),
       ),
       body: Padding(
@@ -62,10 +68,16 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'imgs/logo.png', // Substitua pelo caminho correto da sua imagem PNG
+              width: 300,
+              height: 300,
+            ),
+            const SizedBox(height: 16.0),
             TextField(
               controller: _raController,
               decoration: const InputDecoration(
-                labelText: 'RA',
+                labelText: 'Insira seu RA:',
               ),
             ),
             const SizedBox(height: 16.0),

@@ -24,7 +24,7 @@ class _DetalhesAlunoState extends State<DetalhesAluno> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Código: ${aluno.codigo}',
+              'Id: ${aluno.id}',
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(height: 10),

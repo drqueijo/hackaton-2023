@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:app_flutter/models/livros.dart';
-import 'package:app_flutter/models/alunos.dart';
-import 'package:app_flutter/models/login.dart';
-import 'package:app_flutter/ui/api/globais.dart';
+import 'package:app_flutter/models/reservalivro.dart';
 import 'package:http/http.dart' as http;
 import 'globais.dart';
 
@@ -13,5 +11,15 @@ class ApiRemote {
     return json.map((e) => Livro.fromJson(e)).toList();
   }
 
-  getStudentByRA(String ra) {}
+  Future<List<ReservaLivro>> getReservasByUserId(String userId) async {
+    final response = await http.get(Uri.parse('${Globais.LinkGetReserva}$userId'));
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final reservas = jsonData.map<ReservaLivro>((item) => ReservaLivro.fromJson(item)).toList();
+      return reservas;
+    } else {
+      throw Exception('Falha ao carregar as reservas');
+    }
+  }
 }

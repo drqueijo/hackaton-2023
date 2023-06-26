@@ -2,7 +2,7 @@ import 'package:app_flutter/helpers/extensions.dart';
 
 
 class Alunos {
-  int codigo;
+  int id;
   String ra;
   String nome;
   String endereco;
@@ -11,29 +11,28 @@ class Alunos {
   String telefone;
   String curso;
 
-  Alunos({required this.codigo,
+  Alunos({
+  required this.id,
   required this.ra,
   required this.nome,
   required this.endereco,
   required this.cidade,
   required this.uf,
   required this.telefone,
-  required this.curso});
+  required this.curso
+  
+  });
 
-  factory Alunos.fromMap(Map<String, dynamic> mapa){
-    int numero = (mapa['url'] ?? '').toString()
-    .replaceAll('', '')
-    .replaceAll('', '').toInt();
-
+  factory Alunos.fromJson(Map<String, dynamic> json) {
     return Alunos(
-      codigo: numero,
-      ra: mapa['ra'],
-      nome: mapa['name'],
-      endereco: mapa['address'],
-      cidade: mapa['city'],
-      uf: mapa['uf'],
-      telefone: mapa['phone'],
-      curso: mapa['course']
+      id: json['id'],
+      ra: json['ra'],
+      nome: json['name'],
+      endereco: json['address'],
+      cidade: json['city'],
+      uf: json['uf'],
+      telefone: json['phone'],
+      curso: json['course']
     );
   }
 }
