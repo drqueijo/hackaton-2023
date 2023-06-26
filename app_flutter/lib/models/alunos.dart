@@ -7,7 +7,7 @@ class Alunos {
   String endereco;
   String cidade;
   String uf;
-  String telefone;
+  int telefone;
   String curso;
 
   Alunos({
@@ -23,14 +23,14 @@ class Alunos {
 
   factory Alunos.fromJson(Map<String, dynamic> json) {
     return Alunos(
-      codigo: int.parse(json['codigo'].toString()),
+      codigo: int.parse(json['id'].toString()),
       ra: json['ra'],
-      nome: json['nome'],
-      endereco: json['endereco'],
-      cidade: json['cidade'],
+      nome: json['name'],
+      endereco: json['address'],
+      cidade: json['city'],
       uf: json['uf'],
-      telefone: json['telefone'],
-      curso: json['curso'],
+      telefone: int.parse(json['phone'].toString()),
+      curso: json['course']['name'],
     );
   }
 }

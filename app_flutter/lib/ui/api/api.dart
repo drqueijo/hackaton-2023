@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:app_flutter/models/alunos.dart';
 import 'package:app_flutter/models/autor.dart';
 import 'package:app_flutter/models/editora.dart';
 import 'package:app_flutter/models/livros.dart';
@@ -22,6 +23,12 @@ class ApiRemote {
     final response = await http.get(Uri.parse('${Globais.LinkGetAutor}/$id'));
     final json = jsonDecode(response.body);
     return Autor.fromJson(json);
+  }
+
+  Future<Alunos> getAlunoById(int id) async {
+    final response = await http.get(Uri.parse('${Globais.LinkGetAluno}$id'));
+    final json = jsonDecode(response.body);
+    return Alunos.fromJson(json);
   }
 
   Future<Editora> getEditoraById(int id) async {

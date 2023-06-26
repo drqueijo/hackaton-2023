@@ -42,4 +42,14 @@ class AppController extends Controller
         return response()->json($books);
     }
 
+    public function getMe(string $id)
+    {
+        $me = Student::with('course')->whereHas('reservation', function ($query) use ($id) {
+            $query->where('student_id', $id);
+        })->first();;
+
+        return response()->json($me);
+    }
+    
+
 }

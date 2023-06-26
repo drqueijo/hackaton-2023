@@ -29,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pushNamed(context, ListaLivros.routeName);
               },
             ),
-            Text('N/A'),
             Botao(
               texto: 'Livros Reservados',
               onPressed: () {
