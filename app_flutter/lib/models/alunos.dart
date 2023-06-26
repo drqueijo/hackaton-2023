@@ -1,3 +1,5 @@
+import 'package:app_flutter/helpers/extensions.dart';
+
 class Alunos {
   int codigo;
   String ra;

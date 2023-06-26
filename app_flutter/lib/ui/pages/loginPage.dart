@@ -1,3 +1,4 @@
+import 'package:app_flutter/helpers/login_helper.dart';
 import 'package:app_flutter/models/login.dart';
 import 'package:app_flutter/ui/pages/home_page.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _helper =LoginHelper();
   TextEditingController _raController = TextEditingController();
   bool _isLoading = false;
   bool logado = false;
@@ -24,6 +26,10 @@ class _LoginPageState extends State<LoginPage> {
       Uri.parse(Globais.linkGetLogin + ra),
     );
     if (response.statusCode == 200) {
+      var decodedJson = json.decode(response.body);
+      final e = populateUser(decodedJson);
+      final dados = Login(id: e.id, ra: e.ra,); 
+      _helper.inserir(dados);
       setState(() {
         logado = true;
         Navigator.pushAndRemoveUntil(
@@ -50,9 +56,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Login populateUser(Map<String, dynamic> json) {
-    Login login = Login.fromJson(json['data']);
-    login.id = json['data']['id'];
-    login.ra = json['data']['ra'];
+    print(json);
+    Login login = Login.fromJson(json);
+    login.id = json['id'];
+    login.ra = json['ra'];
     return login;
   }
 

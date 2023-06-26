@@ -15,9 +15,9 @@ class AppController extends Controller
 
         if ($student) {
 
-            return response()->json(['student_id' => $student->id, 'message' => 'RA permitido']);
+            return response()->json(['id' => $student->id,'ra' => $student->ra, 'message' => 'RA permitido']);
         }
-        return response()->json(['student_id' => false, 'message' => 'RA não cadastrado'], 404);
+        return response()->json(['id' => false, 'message' => 'RA não cadastrado'], 404);
     }
 
 
