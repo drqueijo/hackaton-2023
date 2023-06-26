@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:app_flutter/models/login.dart';
 import 'package:app_flutter/ui/pages/home_page.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import '../api/globais.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}):super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
   static const routeName = '/loginPage';
-  
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -19,14 +19,18 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   bool logado = false;
 
-   Future<Login> logar(String ra) async {
+  Future<Login> logar(String ra) async {
     var response = await http.get(
       Uri.parse(Globais.linkGetLogin + ra),
     );
     if (response.statusCode == 200) {
       setState(() {
         logado = true;
-       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (route) => false,
+        );
         var decodedJson = json.decode(response.body);
         populateUser(decodedJson);
       });
@@ -34,15 +38,18 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         logado = false;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('RA inválido ou não cadastrado.'),
+        ),
+      );
     }
-   
-    // print(response.body);
+
     var decodedJson = json.decode(response.body);
     return populateUser(decodedJson);
   }
 
   Login populateUser(Map<String, dynamic> json) {
-    // print(json);
     Login login = Login.fromJson(json['data']);
     login.id = json['data']['id'];
     login.ra = json['data']['ra'];
@@ -53,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // Remover o botão de voltar
         title: const Text('Login'),
       ),
       body: Padding(
@@ -71,7 +79,6 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () {
                 logar(_raController.text);
               },
-              // onPressed: _isLoading ? null : logar,
               child: _isLoading
                   ? const CircularProgressIndicator()
                   : const Text('Entrar'),

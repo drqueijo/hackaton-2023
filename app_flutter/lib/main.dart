@@ -1,36 +1,28 @@
 import 'package:app_flutter/ui/pages/home_page.dart';
 import 'package:app_flutter/ui/pages/loginPage.dart';
+import 'package:app_flutter/ui/pages/lista_livros.dart';
+import 'package:app_flutter/ui/pages/detalhes_alunos.dart';
 import 'package:flutter/material.dart';
 
-void main(){
-  runApp(const  MaterialApp(
-    title: 'Biblioteca UniAlfa',
-    debugShowCheckedModeBanner: false,
-    home: NavigationWidget(),
-  ));
+void main() {
+  runApp(const MyApp());
 }
 
-class NavigationWidget extends StatefulWidget {
-  const NavigationWidget ({Key? key});
-
-
-  @override
-  State<NavigationWidget> createState() => _NavigationWidgetState();
-}
-
-class _NavigationWidgetState extends State<NavigationWidget>{
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'App de Navegação',
+      title: 'Biblioteca UniAlfa',
+      debugShowCheckedModeBanner: false,
       initialRoute: LoginPage.routeName,
       routes: {
         '/': (context) => HomeScreen(),
         LoginPage.routeName: (context) => LoginPage(),
         ListaLivros.routeName: (context) => ListaLivros(),
-        LivrosReservados.routeName: (context) => LivrosReservados(),
-        DetalhesAlunos.routeName:(context) => DetalhesAlunos(),
+        //LivrosReservados.routeName: (context) => LivrosReservados(),
+        DetalhesAluno.routeName: (context) => DetalhesAluno(),
       },
     );
   }

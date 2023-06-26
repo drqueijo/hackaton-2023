@@ -17,19 +17,19 @@ class AppController extends Controller
 
             return response()->json(['student_id' => $student->id, 'message' => 'RA permitido']);
         }
-        return response()->json(['student_id' => false, 'message' => 'RA não cadastrado']);
+        return response()->json(['student_id' => false, 'message' => 'RA não cadastrado'], 404);
     }
 
 
     public function getBooks()
     {
-        $books = Book::select('id', 'title', 'subtitle')->get();
+        $books = Book::with('author', 'publisher')->get();
         return response()->json($books);
     }
 
     public function getBookDetails(string $id)
     {
-        $books = Book::with('author', 'publisher')->findOrFail($id);
+        $books = Book::with('author', 'publisher',)->findOrFail($id);
         return response()->json($books);
     }
 
@@ -41,4 +41,5 @@ class AppController extends Controller
 
         return response()->json($books);
     }
+
 }

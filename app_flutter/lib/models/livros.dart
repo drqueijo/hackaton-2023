@@ -1,32 +1,43 @@
-import 'package:app_flutter/helpers/extensions.dart';
+import 'package:app_flutter/models/autor.dart';
+import 'package:app_flutter/models/editora.dart';
 
-class Livros{
-  int codigo;
-  String nome;
-  String legenda;
+class Livro {
+  int id;
+  String title;
+  String subtitle;
   String isbn;
-  String lugar;
-  String ano;
-  String autor;
-  String editora;
+  String place;
+  int year;
+  int publisherId;
+  int authorId;
+  Autor author;
+  Editora publisher;
 
-  Livros ({required this.codigo, 
-  required this.nome, 
-  required this.legenda, 
-  required this.isbn,
-  required this.lugar,
-  required this.ano,
-  required this.autor,
-  required this.editora});
+  Livro({
+    required this.id,
+    required this.title,
+    required this.subtitle,
+    required this.isbn,
+    required this.place,
+    required this.year,
+    required this.publisherId,
+    required this.authorId,
+    required this.author,
+    required this.publisher,
+  });
 
-  factory Livros.fromJson(Map<String, dynamic> mapa) => Livros(
-    codigo:mapa["codigo"],
-    nome: mapa["nome"],
-    legenda: mapa["legenda"],
-    isbn: mapa["isbn"],
-    lugar: mapa["lugar"],
-    ano: mapa["ano"] ,
-    autor: mapa["autor"],
-    editora: mapa["editora"],);
-  
+  factory Livro.fromJson(Map<String, dynamic> json) {
+    return Livro(
+      id: json['id'],
+      title: json['title'],
+      subtitle: json['subtitle'],
+      isbn: json['isbn'],
+      place: json['place'],
+      year: json['year'],
+      publisherId: json['publisher_id'],
+      authorId: json['author_id'],
+      author: Autor.fromJson(json['author']),
+      publisher: Editora.fromJson(json['publisher']),
+    );
   }
+}
