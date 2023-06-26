@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _helper =LoginHelper();
+/*   final _helper =LoginHelper(); */
   TextEditingController _raController = TextEditingController();
   bool _isLoading = false;
   bool logado = false;
@@ -26,10 +26,10 @@ class _LoginPageState extends State<LoginPage> {
       Uri.parse(Globais.linkGetLogin + ra),
     );
     if (response.statusCode == 200) {
-      var decodedJson = json.decode(response.body);
+     /*  var decodedJson = json.decode(response.body);
       final e = populateUser(decodedJson);
       final dados = Login(id: e.id, ra: e.ra,); 
-      _helper.inserir(dados);
+      _helper.inserir(dados); */
       setState(() {
         logado = true;
         Navigator.pushAndRemoveUntil(

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class LivrosReservados extends StatefulWidget {
   const LivrosReservados({Key? key});
-  static const routeName = '/lista_Livros';
+  static const routeName = '/lista_reservados';
 
   @override
   _LivrosReservadosState createState() => _LivrosReservadosState();
@@ -24,7 +24,7 @@ class _LivrosReservadosState extends State<LivrosReservados> {
 
   Future<void> fetchLivros() async {
     final api = ApiRemote();
-    livros = api.getLivros();
+    livros = api.getReservas(2);
     setState(() {});
   }
 

@@ -8,9 +8,14 @@ import 'globais.dart';
 
 class ApiRemote {
   Future<List<Livro>> getLivros() async {
-  final response = await http.get(Uri.parse(Globais.LinkGetLivros));
-  final json = jsonDecode(response.body) as List<dynamic>;
-  return json.map((e) => Livro.fromJson(e)).toList();
+    final response = await http.get(Uri.parse(Globais.LinkGetLivros));
+    final json = jsonDecode(response.body) as List<dynamic>;
+    return json.map((e) => Livro.fromJson(e)).toList();
+  }
+  Future<List<Livro>> getReservas(int id) async {
+    final response = await http.get(Uri.parse('${Globais.LinkGetReserva}/$id'));
+    final json = jsonDecode(response.body) as List<dynamic>;
+    return json.map((e) => Livro.fromJson(e)).toList();
   }
 
   Future<Autor> getAutorById(int id) async {

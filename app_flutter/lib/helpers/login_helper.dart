@@ -5,10 +5,11 @@ import 'package:sqflite/sqflite.dart';
 class LoginHelper {
   static const createSQL = '''
     CREATE TABLE IF NOT EXISTS Login (
-      id INTEGER,
-      ra TEXT,
+      id INTEGER PRIMARY KEY,
+      ra TEXT
     )
   ''';
+
 
   void inserir(Login login) async {
     Database db = await BancoDados().db;

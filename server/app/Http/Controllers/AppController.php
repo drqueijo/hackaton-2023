@@ -35,7 +35,7 @@ class AppController extends Controller
 
     public function getBooksReservationByUserId(string $id)
     {
-        $books = Book::whereHas('reservation', function ($query) use ($id) {
+        $books = Book::with('author', 'publisher')->whereHas('reservation', function ($query) use ($id) {
             $query->where('student_id', $id);
         })->get();
 
