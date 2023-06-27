@@ -74,10 +74,10 @@ export default function EditReservation() {
       label: publisher.name
     }
   })
-  const booksOptions: SelectOptions | undefined = books.data?.map((author) => {
+  const booksOptions: SelectOptions | undefined = books.data?.map((book) => {
     return {
-      value: author.id,
-      label: author.title
+      value: book.id,
+      label: book.title
     }
   })
 
@@ -90,7 +90,7 @@ export default function EditReservation() {
         options={studentsOptions ?? []}
       />
       <Select
-        label='Author'
+        label='Book'
         onChange={(e) => setForm({...form, book_id: e as string})}
         defaultValue={form.book_id}
         options={booksOptions ?? []}
