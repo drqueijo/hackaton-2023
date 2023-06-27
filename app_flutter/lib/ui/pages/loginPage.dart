@@ -1,8 +1,10 @@
 import 'package:app_flutter/helpers/login_helper.dart';
 import 'package:app_flutter/models/login.dart';
 import 'package:app_flutter/ui/pages/home_page.dart';
+import 'package:app_flutter/ui/widgets/global.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:convert';
 
 import '../api/globais.dart';
@@ -16,20 +18,27 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-/*   final _helper =LoginHelper(); */
+  late GlobalData globalData;
   TextEditingController _raController = TextEditingController();
   bool _isLoading = false;
   bool logado = false;
+
+  @override
+  void initState() {
+    super.initState();
+    globalData = Provider.of<GlobalData>(context, listen: false); // Initialize globalData
+  }
+
 
   Future<Login> logar(String ra) async {
     var response = await http.get(
       Uri.parse(Globais.linkGetLogin + ra),
     );
     if (response.statusCode == 200) {
-     /*  var decodedJson = json.decode(response.body);
+      var decodedJson = json.decode(response.body);
       final e = populateUser(decodedJson);
-      final dados = Login(id: e.id, ra: e.ra,); 
-      _helper.inserir(dados); */
+       globalData.atualizarVariavel(e.id.toString());
+      
       setState(() {
         logado = true;
         Navigator.pushAndRemoveUntil(

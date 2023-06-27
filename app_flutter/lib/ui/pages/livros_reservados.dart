@@ -3,7 +3,9 @@ import 'package:app_flutter/models/editora.dart';
 import 'package:app_flutter/models/autor.dart';
 import 'package:app_flutter/ui/api/api.dart';
 import 'package:app_flutter/ui/pages/detalhes_livros.dart';
+import 'package:app_flutter/ui/widgets/global.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LivrosReservados extends StatefulWidget {
   const LivrosReservados({Key? key});
@@ -15,16 +17,17 @@ class LivrosReservados extends StatefulWidget {
 
 class _LivrosReservadosState extends State<LivrosReservados> {
   late Future<List<Livro>> livros;
-
+  late GlobalData globalData;
   @override
   void initState() {
     super.initState();
-    fetchLivros();
+    globalData = Provider.of<GlobalData>(context, listen: false);
+    fetchLivros(globalData.login);
   }
 
-  Future<void> fetchLivros() async {
+  Future<void> fetchLivros(String id) async {
     final api = ApiRemote();
-    livros = api.getReservas(2);
+    livros = api.getReservas(id);
     setState(() {});
   }
 

@@ -1,10 +1,10 @@
 import 'package:app_flutter/models/alunos.dart';
 import 'package:app_flutter/models/livros.dart';
-import 'package:app_flutter/models/editora.dart';
-import 'package:app_flutter/models/autor.dart';
 import 'package:app_flutter/ui/api/api.dart';
 import 'package:app_flutter/ui/pages/detalhes_livros.dart';
+import 'package:app_flutter/ui/widgets/global.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DetalhesAluno extends StatefulWidget {
   const DetalhesAluno({Key? key});
@@ -16,16 +16,17 @@ class DetalhesAluno extends StatefulWidget {
 
 class _DetalhesAlunoState extends State<DetalhesAluno> {
   late Future<Alunos> aluno;
-
+  late GlobalData globalData;
   @override
   void initState() {
     super.initState();
-    fetchLivros();
+    globalData = Provider.of<GlobalData>(context, listen: false);
+    fetchLivros(globalData.login);
   }
 
-  Future<void> fetchLivros() async {
+  Future<void> fetchLivros(String id) async {
     final api = ApiRemote();
-    aluno = api.getAlunoById(2);
+    aluno = api.getAlunoById(id);
     setState(() {});
   }
 

@@ -2,7 +2,9 @@ import 'package:app_flutter/ui/widgets/botao.dart';
 import 'package:app_flutter/ui/pages/lista_livros.dart';
 import 'package:app_flutter/ui/pages/livros_reservados.dart';
 import 'package:app_flutter/ui/pages/detalhes_alunos.dart';
+import 'package:app_flutter/ui/widgets/global.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,6 +14,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late GlobalData globalData;
+  String login = '';
+  @override
+  void initState() {
+    super.initState();
+    globalData = Provider.of<GlobalData>(context, listen: false); 
+    login = globalData.login;// Initialize globalData
+  }
 
   @override
   Widget build(BuildContext context) {

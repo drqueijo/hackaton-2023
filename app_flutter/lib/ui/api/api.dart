@@ -3,7 +3,6 @@ import 'package:app_flutter/models/alunos.dart';
 import 'package:app_flutter/models/autor.dart';
 import 'package:app_flutter/models/editora.dart';
 import 'package:app_flutter/models/livros.dart';
-import 'package:app_flutter/ui/pages/lista_livros.dart';
 import 'package:http/http.dart' as http;
 import 'globais.dart';
 
@@ -13,7 +12,7 @@ class ApiRemote {
     final json = jsonDecode(response.body) as List<dynamic>;
     return json.map((e) => Livro.fromJson(e)).toList();
   }
-  Future<List<Livro>> getReservas(int id) async {
+  Future<List<Livro>> getReservas(String id) async {
     final response = await http.get(Uri.parse('${Globais.LinkGetReserva}/$id'));
     final json = jsonDecode(response.body) as List<dynamic>;
     return json.map((e) => Livro.fromJson(e)).toList();
@@ -25,7 +24,7 @@ class ApiRemote {
     return Autor.fromJson(json);
   }
 
-  Future<Alunos> getAlunoById(int id) async {
+  Future<Alunos> getAlunoById(String id) async {
     final response = await http.get(Uri.parse('${Globais.LinkGetAluno}$id'));
     final json = jsonDecode(response.body);
     return Alunos.fromJson(json);
