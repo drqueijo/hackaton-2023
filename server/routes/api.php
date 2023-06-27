@@ -33,3 +33,4 @@ Route::get('/app/login/{ra}', [AppController::class, 'login']);
 Route::get('/app/books', [AppController::class, 'getBooks']);
 Route::get('/app/books/{id}', [AppController::class, 'getBookDetails']);
 Route::get('/app/userbooks/{id}', [AppController::class, 'getBooksReservationByUserId']);
+Route::get('/app/me/{id}', [AppController::class, 'getMe']);

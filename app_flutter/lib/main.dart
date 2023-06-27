@@ -1,11 +1,19 @@
 import 'package:app_flutter/ui/pages/home_page.dart';
+import 'package:app_flutter/ui/pages/livros_reservados.dart';
 import 'package:app_flutter/ui/pages/loginPage.dart';
 import 'package:app_flutter/ui/pages/lista_livros.dart';
 import 'package:app_flutter/ui/pages/detalhes_alunos.dart';
+import 'package:app_flutter/ui/widgets/global.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => GlobalData(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +29,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => HomeScreen(),
         LoginPage.routeName: (context) => LoginPage(),
         ListaLivros.routeName: (context) => ListaLivros(),
-        //LivrosReservados.routeName: (context) => LivrosReservados(),
+        LivrosReservados.routeName: (context) => LivrosReservados(),
         DetalhesAluno.routeName: (context) => DetalhesAluno(),
       },
     );

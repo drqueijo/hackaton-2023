@@ -112,7 +112,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: '24px 16px 0' }}>
           <div style={{ padding: 24, minHeight: '87vh', background: colorBgContainer, margin: 'auto' }}>
-            {sessionData  ? children : <Home />}
+            {children}
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Hackaton ©2023</Footer>

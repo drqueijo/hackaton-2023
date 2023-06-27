@@ -1,7 +1,10 @@
+import 'package:app_flutter/helpers/login_helper.dart';
 import 'package:app_flutter/models/login.dart';
 import 'package:app_flutter/ui/pages/home_page.dart';
+import 'package:app_flutter/ui/widgets/global.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:convert';
 
 import '../api/globais.dart';
@@ -15,15 +18,27 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late GlobalData globalData;
   TextEditingController _raController = TextEditingController();
   bool _isLoading = false;
   bool logado = false;
+
+  @override
+  void initState() {
+    super.initState();
+    globalData = Provider.of<GlobalData>(context, listen: false); // Initialize globalData
+  }
+
 
   Future<Login> logar(String ra) async {
     var response = await http.get(
       Uri.parse(Globais.linkGetLogin + ra),
     );
     if (response.statusCode == 200) {
+      var decodedJson = json.decode(response.body);
+      final e = populateUser(decodedJson);
+       globalData.atualizarVariavel(e.id.toString());
+      
       setState(() {
         logado = true;
         Navigator.pushAndRemoveUntil(
@@ -50,9 +65,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Login populateUser(Map<String, dynamic> json) {
-    Login login = Login.fromJson(json['data']);
-    login.id = json['data']['id'];
-    login.ra = json['data']['ra'];
+    print(json);
+    Login login = Login.fromJson(json);
+    login.id = json['id'];
+    login.ra = json['ra'];
     return login;
   }
 

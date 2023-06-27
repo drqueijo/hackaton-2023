@@ -1,69 +1,109 @@
-import 'package:flutter/material.dart';
 import 'package:app_flutter/models/alunos.dart';
+import 'package:app_flutter/models/livros.dart';
+import 'package:app_flutter/ui/api/api.dart';
+import 'package:app_flutter/ui/pages/detalhes_livros.dart';
+import 'package:app_flutter/ui/widgets/global.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DetalhesAluno extends StatefulWidget {
-  const DetalhesAluno({Key? key}) : super(key: key);
-  static const routeName = '/detalhes_alunos';
+  const DetalhesAluno({Key? key});
+  static const routeName = '/detalhes_aluno';
 
   @override
-  State<DetalhesAluno> createState() => _DetalhesAlunoState();
+  _DetalhesAlunoState createState() => _DetalhesAlunoState();
 }
 
 class _DetalhesAlunoState extends State<DetalhesAluno> {
+  late Future<Alunos> aluno;
+  late GlobalData globalData;
+  @override
+  void initState() {
+    super.initState();
+    globalData = Provider.of<GlobalData>(context, listen: false);
+    fetchLivros(globalData.login);
+  }
+
+  Future<void> fetchLivros(String id) async {
+    final api = ApiRemote();
+    aluno = api.getAlunoById(id);
+    setState(() {});
+  }
+
+  void _navigateToDetalhesLivro(Livro livro) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetalhesLivro(livro: livro),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Alunos aluno = ModalRoute.of(context)!.settings.arguments as Alunos;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalhes do Aluno'),
+        title: const Text('Detalhes do aluno'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
+      body: FutureBuilder<Alunos>(
+        future: aluno,
+        builder: (BuildContext context, AsyncSnapshot<Alunos> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Erro ao carregar os livros'),
+            );
+          } else if (snapshot.hasData) {
+            final Alunos? aluno = snapshot.data;
+            return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Código: ${aluno.codigo}',
-              style: TextStyle(fontSize: 20),
-            ),
             SizedBox(height: 10),
             Text(
-              'RA: ${aluno.ra}',
+              'RA: ${aluno?.ra ?? ''}',
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 10),
             Text(
-              'Nome: ${aluno.nome}',
+              'Nome: ${aluno?.nome ?? ''}',
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 10),
             Text(
-              'Endereço: ${aluno.endereco}',
+              'Endereço: ${aluno?.endereco ?? ''}',
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 10),
             Text(
-              'Cidade: ${aluno.cidade}',
+              'Cidade: ${aluno?.cidade ?? ''}',
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 10),
             Text(
-              'UF: ${aluno.uf}',
+              'UF: ${aluno?.uf ?? ''}',
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 10),
             Text(
-              'Telefone: ${aluno.telefone}',
+              'Telefone: ${aluno?.telefone ?? ''}',
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 10),
             Text(
-              'Curso: ${aluno.curso}',
+              'Curso: ${aluno?.curso ?? ''}',
               style: TextStyle(fontSize: 16),
             ),
           ],
-        ),
+        );
+          } else {
+            return Center(
+              child: Text('Nenhum livro encontrado'),
+            );
+          }
+        },
       ),
     );
   }

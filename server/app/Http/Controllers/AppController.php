@@ -15,9 +15,9 @@ class AppController extends Controller
 
         if ($student) {
 
-            return response()->json(['student_id' => $student->id, 'message' => 'RA permitido']);
+            return response()->json(['id' => $student->id,'ra' => $student->ra, 'message' => 'RA permitido']);
         }
-        return response()->json(['student_id' => false, 'message' => 'RA não cadastrado'], 404);
+        return response()->json(['id' => false, 'message' => 'RA não cadastrado'], 404);
     }
 
 
@@ -35,11 +35,21 @@ class AppController extends Controller
 
     public function getBooksReservationByUserId(string $id)
     {
-        $books = Book::whereHas('reservation', function ($query) use ($id) {
+        $books = Book::with('author', 'publisher')->whereHas('reservation', function ($query) use ($id) {
             $query->where('student_id', $id);
         })->get();
 
         return response()->json($books);
     }
+
+    public function getMe(string $id)
+    {
+        $me = Student::with('course')->whereHas('reservation', function ($query) use ($id) {
+            $query->where('student_id', $id);
+        })->first();;
+
+        return response()->json($me);
+    }
+    
 
 }
