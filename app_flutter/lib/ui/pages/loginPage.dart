@@ -26,9 +26,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    globalData = Provider.of<GlobalData>(context, listen: false); // Initialize globalData
+    globalData = Provider.of<GlobalData>(context,
+        listen: false); // Initialize globalData
   }
-
 
   Future<Login> logar(String ra) async {
     var response = await http.get(
@@ -37,8 +37,8 @@ class _LoginPageState extends State<LoginPage> {
     if (response.statusCode == 200) {
       var decodedJson = json.decode(response.body);
       final e = populateUser(decodedJson);
-       globalData.atualizarVariavel(e.id.toString());
-      
+      globalData.atualizarVariavel(e.id.toString());
+
       setState(() {
         logado = true;
         Navigator.pushAndRemoveUntil(
@@ -75,29 +75,32 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false, // Remover o botão de voltar
-        title: const Text('Login'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'imgs/logo.png', 
+              width: 300,
+              height: 300,
+            ),
             TextField(
               controller: _raController,
               decoration: const InputDecoration(
-                labelText: 'RA',
+                labelText: 'Insira seu RA:',
               ),
             ),
             const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
+            InkWell(
+              onTap: () {
                 logar(_raController.text);
               },
-              child: _isLoading
-                  ? const CircularProgressIndicator()
-                  : const Text('Entrar'),
+              child: Image.asset(
+                'imgs/login.png', 
+                width: 200,
+                height: 50,
+              ),
             ),
           ],
         ),
